@@ -1,0 +1,14 @@
+http://userpages.umbc.edu/~chenjia1/UAP3/index.php
+
+case 1: no user name/no major/no id: ok
+case 2: Id is not full (7 char): not ok
+case 3: Returning student: cancel appoinment: ok
+case 4: Student sign up individual: ok
+case 5: sign up group: not update time and date
+ ** group advising cancelling bug
+ case 6: enter not available time: ok
+ case 7: try clicker: ok
+ case 8: mistype name/major, ID right: ok
+ case 9: not returning student want to log in: ok
+ case 10: after student sign up, available time updated: ok
+  ** group capacity upperlimit printing
