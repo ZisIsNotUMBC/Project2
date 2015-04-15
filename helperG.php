@@ -29,7 +29,7 @@
 	<?php
 		include('CommonMethods.php');
 		$d=new Common(false);
-		$ra=$d->executeQuery("SELECT * FROM appts WHERE sid='$_GET[ID]'",'main.A');
+		$ra=$d->executeQuery("SELECT * FROM appts WHERE id='$_GET[ID]'",'helperG.A');
 		if($ss=mysql_fetch_row($ra)){
 			if($ss[6]==1)header("Location:adv.php?ID=$_GET[ID]");
 			if($_GET['ins'])$ins=intval($_GET['ins']);else $ins=0;
@@ -48,7 +48,7 @@
 			$jb=array();
 			$je=array();
 			$jxd=array();
-			$ra=$d->executeQuery("SELECT * FROM i$ins WHERE m='$ss[3]' AND mg>0 ORDER BY b",'helperG.A');
+			$ra=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ins' AND major='$ss[3]' AND groupMax>0 ORDER BY start",'helperG.B');
 			while($s=mysql_fetch_row($ra)){
 				$ub=strtotime($s[0]);
 				$ue=strtotime($s[1]);

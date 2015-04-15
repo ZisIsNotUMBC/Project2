@@ -1,55 +1,39 @@
 http://userpages.umbc.edu/~chenjia1/UAP3/index.php
 
-case 1: no user name/no major/no id for sign up: ok
-case 2: Id is not full (7 char): not ok
-case 3: Returning student: cancel appoinment: ok
-case 4: Student sign up individual: ok
-case 5: sign up group: not update time and date
- ** group advising cancelling bug
- case 6: enter not available time: ok
- case 7: try clicker: ok
- case 8: mistype name/major, ID right: ok
- case 9: not returning student want to log in: ok
- case 10: after student sign up, available time updated: ok
-  ** group capacity upperlimit printing
-4/10/2015
-STUDENT:
+** combine all table: ok
+
+case 1 : no user name/no major/no id for sign up: ok
+case 2 : Id is not full (7 char): not ok
+case 3 : Returning student: cancel appoinment: ok
+case 4 : Student sign up individual: ok
+case 5 : sign up group: not update time and date
+fixed  : group advising cancelling bug
+case 6 : enter not available time: ok
+case 7 : try clicker: ok
+case 8 : mistype name/major, ID right: ok
+case 9 : not returning student want to log in: ok
+case 10: after student sign up, available time updated: ok
+fixed  : group capacity upperlimit printing
 case 11: Returning student: cancel appoinment:time update: ok
-
 case 12: group capacity full, cannot sign up: ok
-
 case 13: group capacity full: clicker update: ok
-
 case 14: returning student: group advising: cancel: update group student #: not ok (the student appoinment hit cancel
-but the group student # is not updated, if the group is full, cannot join the group even a student cancel)
-
+but the group student # is not updated, if the group is full, cannot join the group even a student cancel): fixed
 case 14: clicker click on blue: pass the time: ok
-
 case 15: clicker click on blue: pass the time: hit submit: not ok ( change the time that was set by advisor)
-
-case 16: after case 15: returning student: hit cancel: not ok (create new available time)
-
+case 16: after case 15: returning student: hit cancel: not ok (create new available time): fixed
 case 17: students with different major cannot see other major appoinment time: ok
-
-case 28: newly added advisor clicker update time: not ok (clicker not update)
-
-** student can choose advisor from different major, consider fixing if possible
-
-ADVISOR:
-
+case 28: newly added advisor clicker update time: not ok (clicker not update): fixed
+** 	   : student can choose advisor from different major, consider fixing if possible:
 case 18: using set multiple time: not ok (date not match: 2015-04-17 09:00:00 ~ 2015-04-24 09:00:00 ; time not match 
 					  2015-04-10 09:30:00 ,  2015-04-24 09:00:00)
 case 19: add the same time: cannot add: ok
-
-case 20: cannot add time end less than time begin: not ok (2015-04-10 09:30:00 ~ 2015-04-10 08:00:00 )
-
+case 20: cannot add time end less than time begin: not ok (2015-04-10 09:30:00 ~ 2015-04-10 08:00:00 ):fixed
 case 21: missing major: cannot add time: not ok (2015-04-10 09:00:00 ~ 2015-04-10 09:30:00 : BIOL
-						 2015-04-10 09:30:00 ~ 2015-04-10 08:00:00 :      )
-
-** cannot delete avaliable time: consider adding a new function "delete avalable time" for advisor
-
+						 2015-04-10 09:30:00 ~ 2015-04-10 08:00:00 :      ): not bug
+**     : cannot delete avaliable time: consider adding a new function "delete avalable time" for advisor: hard
 case 22: add date in the past ( today is 4/10, tried add 3/10): add today (2015-04-10 10:00:00 ~ 2015-04-10 10:30:00 ):
-should reconsider 
+should reconsider :fixed
 
 case 23: add group: not ok (group added but does not show end time) 
 
@@ -60,4 +44,7 @@ case 25: add same time but different day: not ok (time conflict)
 case 26: add time for future date: not ok (add today ; tried to add 2015-4-11, 
 					   added 2015-04-10 03:00:00 ~ 2015-04-10 03:30:00)
 
-case 27: cannot add invalid time (day 33, month 13, etc): not ok (still add) 
+case 27: cannot add invalid time (day 33, month 13, etc): not ok (still add): too hard 
+
+!!     : group-related bug fixed
+!!	   : things sort of "too hard" or "too complicated" and not "that necessary" are not done
