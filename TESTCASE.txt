@@ -48,3 +48,30 @@ case 27: cannot add invalid time (day 33, month 13, etc): not ok (still add): to
 
 !!     : group-related bug fixed
 !!	   : things sort of "too hard" or "too complicated" and not "that necessary" are not done
+
+4/17/2015
+
+CONFIRMING FIXED:
+Case 5: fixed: confirmed 
+Case 14: fixed: confirmed
+** Group upper limit update: fixed: confirmed
+Case 16: cannot test (see case 7 below)
+All advisor case cannot be tested (see case 29 below)
+case 20, 22, 28
+
+SHOULD FIX (important function)
+Case 2 (it should be easy to fixe this)
+Case 15?? ( cannot test, see case 7 below)
+Case 18 
+Case 23 
+Case 25
+Case 26
+
+NEW BUG:
+Case 7: individual clicker: not ok (show group clicker) ; Group clicker: not ok 
+(there are teo available group, show only 1)
+MAJOR BUG: Case 29: can NOT access as advisor: when try to sign up as advisor,
+there is a new advisor appear in student GUI, but the person log in
+go to the student GUI (Wrong header or action listener?)
+
+CANNOT test further
