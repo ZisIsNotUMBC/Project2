@@ -55,7 +55,7 @@
 			for($i=0;$i<$l;$i++){
 				F($ub,$ue,$d,$ss);
 				$ub=$ub+604800;
-				$ue=$ub+604800;
+				$ue=$ue+604800;
 			}
 		}
 	}else header("Locationindex.php?MSG=0");

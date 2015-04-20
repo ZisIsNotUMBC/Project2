@@ -48,7 +48,7 @@
 			$jb=array();
 			$je=array();
 			$jxd=array();
-			$ra=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ins' AND major='$ss[3]' AND groupMax>0 ORDER BY start",'helperG.B');
+			$ra=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ins' AND ( major='$ss[3]' OR major='' ) AND groupMax>0 ORDER BY start",'helperG.B');
 			while($s=mysql_fetch_row($ra)){
 				$ub=strtotime($s[0]);
 				$ue=strtotime($s[1]);

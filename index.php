@@ -10,9 +10,9 @@
 			$flag=1;
 			print("<h3>ERROR: Name Not Given</h3><br>");
 		}
-		if(strlen($_POST['ID'])==0){
+		if(strlen($_POST['ID'])!=7){
 			$flag=1;
-			print("<h3>ERROR: ID Not Given</h3><br>");
+			print("<h3>ERROR: ID Not 7 Char</h3><br>");
 		}
 		if(strlen($_POST['Major'])==0){
 			$flag=1;

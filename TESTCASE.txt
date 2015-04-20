@@ -60,18 +60,18 @@ All advisor case cannot be tested (see case 29 below)
 case 20, 22, 28
 
 SHOULD FIX (important function)
-Case 2 (it should be easy to fixe this)
-Case 15?? ( cannot test, see case 7 below)
-Case 18 
-Case 23 
-Case 25
-Case 26
+Case 2 (it should be easy to fixe this): fixed
+Case 15?? ( cannot test, see case 7 below) #TODO: don't understand
+Case 18 : group add, fixed
+Case 23 #TODO: did you entered the end time
+Case 25 #TODO: ?
+Case 26 #TODO: ? 
 
 NEW BUG:
 Case 7: individual clicker: not ok (show group clicker) ; Group clicker: not ok 
-(there are teo available group, show only 1)
+(there are teo available group, show only 1) : fixed
 MAJOR BUG: Case 29: can NOT access as advisor: when try to sign up as advisor,
 there is a new advisor appear in student GUI, but the person log in
-go to the student GUI (Wrong header or action listener?)
+go to the student GUI (Wrong header or action listener?) #TODO: not shown? For example?
 
 CANNOT test further

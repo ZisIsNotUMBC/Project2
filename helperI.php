@@ -55,7 +55,7 @@
 			$jb=array();
 			$je=array();
 			$jxd=array();
-			$ra=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ins' AND major='$ss[3]' ORDER BY start",'helperG.A');
+			$ra=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ins' AND ( major='$ss[3]' OR major='' ) ORDER BY start",'helperG.A');
 			while($s=mysql_fetch_row($ra)){
 				$ub=strtotime($s[0]);
 				$ue=strtotime($s[1]);
