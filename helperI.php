@@ -123,9 +123,11 @@
 	?>
 </script>
 
-<br><font color='blue'>Blue</font> are for <b>New Individual Advising</b><br>
-<font color='red'>Red</font> are for <b>'Join Group Advising'</b>. CAPACITY is written above.<br><br>
+<br><font color='blue'>Blue</font> is for <b>'New Individual Advising'</b><br>
+<font color='red'>Red</font> is for <b>'Join Group Advising'</b>. CAPACITY is written above.<br><br>
 
-Just click the time you want the advising to <b>START</b>, and it will auto-input the "Time Box" in the privious page for you.
+Just click the time you want the advising to <b>START</b>, and it will auto-input the "Time Box" in the privious page for you.<br>
+Click anywhere else in the picture area to return.<br>
+You can save the time table by right clicking the time table and save that.<br>
 
 </body></html>

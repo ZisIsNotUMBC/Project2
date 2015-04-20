@@ -20,11 +20,11 @@
 		}
 		if($flag==0){
 			if($_POST['i']==1){
-				$i="TRUE";
+				$i=1;
 				$inst=mysql_fetch_row($d->executeQuery("SELECT COUNT(i) FROM i",'index.A'));
 				$inst=$inst[0];
 			}else{
-				$i="FALSE";
+				$i=0;
 				$inst=0;
 			}
 			$s=$d->executeQuery("SELECT * FROM appts WHERE id='$ID'",'index.B');
@@ -75,9 +75,10 @@ If you are an advisor, input the info you would like your students to see to reg
 		</textarea><br>	
 	</form>	
 	<br>	<!--how to use-->
-	Enter ID, Name, Major, select Student for Student Signup<br>
-	Enter ID, Name, Major, select Advisor, enter Contact Info for Advisor Singup<br>
-	<b>JUST</b> enter ID to Login. Don't Waste Time<br>
+	<b>STUDENT SIGNUP: </b>Enter ID, Name, Major, select Student<br>
+	<b>ADVISOR SIGNUP: </b>Enter ID, Name, Major, select Advisor, enter Contact Info<br>
+	<b>LOGIN: </b> JUST enter ID. Don't Waste Time<br>
+	
 </div>
 
 <script type="text/javascript">

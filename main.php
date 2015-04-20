@@ -71,7 +71,7 @@
 						}
 					}
 					$rt=$d->executeQuery("UPDATE appts SET adv='$i',t='$t',isGroup='0' WHERE id='$_GET[ID]'",'main.R');
-					$rt=$name[$ss[4]];
+					$rt=$name[$i];
 					die("<h3>Advising: $t with $rt</h3><br><form action='main.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='cancel' value='Cancel Advising'><input type='submit' name='return' value='Return To Login'></form>");
 				}else{
 					print("<h3>Time Do Not Exist</h3><br>");
@@ -81,8 +81,8 @@
 					$n=$s[2]+1;
 					$rt=$d->executeQuery("UPDATE i0 SET groupNow=$n WHERE adv='$i' AND start='$s[0]'",'main.T');
 					$rt=$d->executeQuery("UPDATE appts SET adv=$i,t='$s[0]',isGroup='1' WHERE id='$_GET[ID]'",'main.U');
-					$rt=$name[$ss[4]];
-					die("<h3>Advising: $ss[5] with $rt</h3><br><form action='main.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='cancel' value='Cancel Advising'><input type='submit' name='return' value='Return To Login'></form>");
+					$rt=$name[$i];
+					die("<h3>Advising: $t with $rt</h3><br><form action='main.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='cancel' value='Cancel Advising'><input type='submit' name='return' value='Return To Login'></form>");
 				}else{
 					print("<h3>Group Do Not Exist or Full</h3><br>");
 				}
@@ -107,13 +107,15 @@
 </form>
 </div>
 
-Select 'Advisor', enter 'Time' above as 'xxxx-x-x x:x:x', click 'New Individual Advising' or 'Join Group Advising' to setup Advising.<br>
-All time given above is the <b>starting time</b>, which lasts 30min.<br>
-
-For CAPACITY=0/0 time periods, they are for 'New Individual Advising' .<br>
-For CAPACITY=?/? time periods, they are for 'Join Group Advising'.<br><br>
-
-<font color='blue'>Try 'Individual Time Clicker' AND 'Group Time Clicker' to "click" the time<br>
-Remember to choose 'Advisor' before that, and click the correct button accoridng to your choice<br><br></font>
+Select Advisor, enter Time E.G. '2015-5-1 11:00:00', click 'New Individual Advising' or 'Join Group Advising' to setup Advising.<br>
+All time period given above is the <b>STARTING TIME</b>, which means that the advising CAN START at any time given in time period above. The advising will always last for 30min.<br>
+<br>
+For CAPACITY=0/0 time periods, they are time where you can do Individual Advising.<br>
+For CAPACITY=?/? time periods, they are Group Advising'.<br>
+<br>
+<font color='blue'>Try 'Individual Time Clicker' AND 'Group Time Clicker' to 'Click' the time<br>
+Remember to choose 'Advisor' before that, and click the correct button accoridng to your choice. Also choose the advisor again after the page returns.<br>
+<br>
+You can get the information of the advisor by hanging the mouse on the "?" picture above.<br></font>
 
 </body></html>

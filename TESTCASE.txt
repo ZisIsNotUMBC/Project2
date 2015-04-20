@@ -56,6 +56,7 @@ Case 5: fixed: confirmed
 Case 14: fixed: confirmed
 ** Group upper limit update: fixed: confirmed
 Case 16: cannot test (see case 7 below)
+
 All advisor case cannot be tested (see case 29 below)
 case 20, 22, 28
 
@@ -75,3 +76,18 @@ there is a new advisor appear in student GUI, but the person log in
 go to the student GUI (Wrong header or action listener?) #TODO: not shown? For example?
 
 CANNOT test further
+
+4/20/2015
+
+Confirmed fixed :
+case 2: confirm
+case 18: confirm
+case 20: confirm
+case 22: confirm
+case 23: confirm
+case 25: confirm
+case 26: confirm
+case 28: confirm
+
+Note:
+case 15: too hard
