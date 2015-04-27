@@ -112,3 +112,11 @@ That all I can think of, I am sorry that I cannot deliver my promise that I will
 tested all the functions, both Advisor and Student, and make sure all the required fuctions work properly.
 In case the developer have MADE ANY CHANGE to the old fucntions that I have tested, he need to tell ASAP me so that
 I will test all the old cases AGAIN.
+
+4/27/2015
+
+Confirm Fixed:
+
+Case 30: Confirmed 
+
+Case 31: Confirmed
