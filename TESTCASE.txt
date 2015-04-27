@@ -120,3 +120,25 @@ Confirm Fixed:
 Case 30: Confirmed 
 
 Case 31: Confirmed
+
+
+Too Hard:
+
+case 27: cannot add invalid time (day 33, month 13, etc): not ok (still add): too hard
+
+case 15: clicker click on blue: pass the time: hit submit: not ok ( change the time that was set by advisor): too hard 
+
+**     : cannot delete avaliable time: consider adding a new function "delete avalable time" for advisor: hard
+
+All fixed bug:
+
+case 2:  confirm
+Case 5:  confirm
+Case 14: confirm
+case 18: confirm
+case 20: confirm
+case 22: confirm
+case 23: confirm
+case 25: confirm
+case 26: confirm
+case 28: confirm
