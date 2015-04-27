@@ -19,32 +19,36 @@
 	include('CommonMethods.php');
 	$d=new Common(false);
 	if($_POST['print']){
-		$printb=date("Y-m-d H:i:s",strtotime("$_POST[date] 9:00:00"));
-		$printe=date("Y-m-d H:i:s",strtotime("$_POST[date] 16:00:00"));
+		$printb=date("Y-m-d H:i:s",strtotime("$_POST[date] 0:00:00"));
+		$printe=date("Y-m-d H:i:s",strtotime("$_POST[date] 23:99:99"));
 		$print=" AND t>='$printb' AND t<='$printe' ";
+		$prints=" AND start>='$printb' AND start<='$printe' ";
 	}else $print="";
 	$rs=$d->executeQuery("SELECT * FROM appts WHERE id='$_GET[ID]'",'adv.E');	//check login validity (main.php?ID=xxx)
 	if($ss=mysql_fetch_row($rs)){
 		if($ss[6]==0)header("Location:main.php?ID=$_GET[ID]");
 		$rs=$d->executeQuery("SELECT * FROM appts WHERE adv='$ss[4]' AND isAdv=0 $print AND t>'0000-00-00 00:00:00' ORDER BY t",'adv.F');
 		$c=0;
-		print("<b>Time Table</b><br>");
+		print("<b>Individual Time Table</b><br>");
 		while($s=mysql_fetch_row($rs)){
-			if($c%2==0)print("<font color='blue'>$s[3] <b>$s[5]</b> $s[2] <b>$s[1]</b><br></font>");
-			else print("<font color='black'>$s[3] <b>$s[5]</b> $s[2] <b>$s[1]</b><br></font>");
+			if($c%2==0)print("<font color='blue'>$s[3] &nbsp; <b>$s[5]</b> &nbsp; $s[2] <b>&nbsp; $s[1]</b><br></font>");
+			else print("<font color='black'>$s[3] &nbsp; <b>$s[5]</b> &nbsp; $s[2] <b>&nbsp; $s[1]</b><br></font>");
 			$c=$c+1;
 		}
-		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND groupMax>0 ORDER BY start",'adv.G');
+		print("<br><b>Group Time Table</b><br>");
+		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' $prints AND groupMax>0 ORDER BY start",'adv.G');
 		while($s=mysql_fetch_row($rs)){
-			print("<font color='red'>$s[0] $s[3] Group:$s[2]/$s[4]</font><br>");
+			if(strlen($s[3])==0)print("<font color='red'>$s[0] &nbsp; Group:$s[2]/$s[4]</font><br>");
+			else print("<font color='red'>$s[0] &nbsp; Group:$s[2]/$s[4] &nbsp For $s[3]</font><br>");
 			$rsb=$d->executeQuery("SELECT * FROM appts WHERE adv='$ss[4]' AND t='$s[0]'",'adv.H');
 			$c=0;
 			while($sp=mysql_fetch_row($rsb)){
-				if($c%2==0)print("<font color='blue'> - - $sp[3] <b>$sp[2]</b> $sp[1]<br></font>");
-				else print("<font color='black'> - - $sp[3] <b>$sp[2]</b> $sp[1]<br></font>");
+				if($c%2==0)print("<font color='blue'> &nbsp; &nbsp; $sp[3] <b>&nbsp; $sp[2]</b> &nbsp; $sp[1]<br></font>");
+				else print("<font color='black'> &nbsp; &nbsp; $sp[3] <b>&nbsp; $sp[2]</b> &nbsp; $sp[1]<br></font>");
 				$c=$c+1;
 			}
 		}
+		if($_POST['print'])die("<br><form action='adv.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='back' value='Go Back'></form>");
 		print("<br><b>Remaining Time</b><br><font color='green'>");
 		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND groupMax=0 ORDER BY start",'adv.I');
 		while($s=mysql_fetch_row($rs))print("$s[0] ~ $s[1] : $s[3]<br>");
@@ -73,6 +77,7 @@
 	<title>Undergraduate Advising Project Advisor Page</title>
 </head>
 <body>
+	<br>
 	<form action=<?php print("'adv.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
 		Date:<input type='text' name='date' value="2015-4-10"><br>
 		Time Start:<input type='text' name='b' value="9:00:00"><br>
@@ -94,7 +99,9 @@
 	</form>
 </div>
 
-<br>The "Time Table" is showing the Registed Individual Advisings and all Group Advisings.<br>
+<b>NOTE:</b> PLEASE USE 13:00:00 instead of 1:00:00 for afternoon. Just plus 12:00:00 for afternoon.<br>
+<br>
+The "Time Table" is showing the Registed Individual Advisings and all Group Advisings.<br>
 The "Remaining Time" table is showing the "free" time you still have<br>
 <br>
 <b>Print Time Table for Specific Date: </b>According to the "Date" box above, print the time table for that date.<br>
