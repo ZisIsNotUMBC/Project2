@@ -91,3 +91,32 @@ case 28: confirm
 
 Note:
 case 15: too hard
+
+4/24/2015
+
+Advisor:
+
+Case 30: try print time table for 2015-04-10: not ok (also print 2015-05-03 12:00:00 Group:0/5)
+
+Case 31: after a student maade an appoinment, try print time table: not ok (print time table not update
+	(same as before the student made an appoinment))
+
+Case 32: add a new time, green color time table updated: ok
+
+Case 33: after student sign up, green time table update: ok
+
+Case 34: after student sign up, without clicking "print time time table", 
+	update the every day time table: ok
+
+That all I can think of, I am sorry that I cannot deliver my promise that I will make about 60 cases, but I have 
+tested all the functions, both Advisor and Student, and make sure all the required fuctions work properly.
+In case the developer have MADE ANY CHANGE to the old fucntions that I have tested, he need to tell ASAP me so that
+I will test all the old cases AGAIN.
+
+4/27/2015
+
+Confirm Fixed:
+
+Case 30: Confirmed 
+
+Case 31: Confirmed
