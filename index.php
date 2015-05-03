@@ -14,9 +14,9 @@
 			$flag=1;
 			print("<h3>ERROR: ID Not 7 Char</h3><br>");
 		}
-		if(strlen($_POST['Major'])==0){
+		if((strlen($_POST['Major'])<3)||(strlen($_POST['Major'])>4)){
 			$flag=1;
-			print("<h3>ERROR: Major Not Given</h3><br>");
+			print("<h3>ERROR: Major Not 3 or 4 Char</h3><br>");
 		}
 		if($flag==0){
 			if($_POST['i']==1){
@@ -31,16 +31,16 @@
 			if(mysql_fetch_row($s)){
 				print("<h3>ERROR: ID Already Exist</h3><br>");
 			}else{
-				$s=$d->executeQuery("INSERT INTO appts(name,id,major,adv,t,isAdv) values ('$_POST[Name]','$ID','$Major','$inst',0,'$i')",'index.C');
+				$s=$d->executeQuery("INSERT INTO appts(name,id,major,adv,t,isAdv) values ('$_POST[Name]','$ID','$Major','$inst','0','$i')",'index.C');
 				if($_POST['i']==1){
 					$rs=$d->executeQuery("INSERT INTO i(name,info,i) VALUES ('$_POST[Name]','$_POST[info]',$inst)",'index.D');
-					header("Location: adv.php?ID=$ID");
+					header("Location:adv.php?ID=$ID");
 				}
-				header("Location: main.php?ID=$ID");
+				header("Location:main.php?ID=$ID");
 			}
 		}
 	}else if($_POST['login']){
-		if(strlen($ID)==0)print("<h3>ERROR: ID Not Given</h3><br>");
+		if(strlen($ID)!=7)print("<h3>ERROR: ID Not 7 Char</h3><br>");
 		else{
 			if(mysql_fetch_row($d->executeQuery("SELECT * FROM appts where id='$ID'",'index.E')))header("Location: main.php?ID=$ID");
 			print("<h3>ERROR: ID Do Not Exist</h3><br>");
@@ -48,42 +48,35 @@
 	}
 ?>
 
-<html>
-<head>
-	<title>Undergraduate Advising Project Login</title>
-</head>
-<body>
+<html><head><title>Login UAP</title></head><body>
 
-<script type="text/javascript">
+<script>
 	function f(){if(ss.selectedIndex==1)info.disabled=true;else info.disabled=false;}
 </script>
 
 <div align='center'>
 	<h2>Undergraduate Advising Project Login</h2><br>
 	<form action='index.php' method='post' name='t'>
-		ID:<input type='text' name='ID'><br>
-		Name:<input type='text' name='Name'><br>
-		Major:<input type='text' name='Major'><br>
-		<select id="ss" name="i" onchange="f();">
-			<option value=1>Advisor</option>
-			<option value=0>Student</option>
-		</select>
-		<input type='submit' name='signup' value='Signup'>
-		<input type='submit' name='login' value='Login'><br>
-		<textarea id="info" name='info' cols=30 rows=4>
-If you are an advisor, input the info you would like your students to see to register
-		</textarea><br>	
-	</form>	
-	<br>	<!--how to use-->
-	<b>STUDENT SIGNUP: </b>Enter ID, Name, Major, select Student<br>
-	<b>ADVISOR SIGNUP: </b>Enter ID, Name, Major, select Advisor, enter Contact Info<br>
-	<b>LOGIN: </b> JUST enter ID. Don't Waste Time<br>
-	
+		<table>
+			<tr bgcolor="#22F53E"><td colspan='2'>ID:<input type='text' name='ID' size='7' title='E.G. AB12345, case insensitive'></td></tr>
+			<tr><td bgcolor="#22F53E"><input type='submit' name='login' value='Log In' title='Just enter ID to Log In, You might directly hit enter to login.'></td>
+			<td bgcolor="#43FAE2"><input type='submit' name='signup' value='Sign Up' title='Enter EVERYTHING to Sign Up'></td></tr>
+		</table>
+		<table bgcolor="#43FAE2"><tr><td>
+				<select id='ss' name='i' onchange='f();'>
+					<option value=1>Advisor</option>
+					<option value=0>Student</option>
+				</select>
+				Name:<input type='text' name='Name' size='9'>
+				Major:<input type='text' name='Major' size='4' title='E.G. CMSC (4 char at most, case insensitive)'><br>
+				<textarea id="info" name='info' cols=44 rows=4>If you are an advisor, input the info you would like your students to see to register</textarea>
+		</td></tr></table>
+	</form>
 </div>
 
-<script type="text/javascript">
-	var ss=document.getElementById("ss");
-	var info=document.getElementById("info");
+<script>
+	var ss=document.getElementById('ss');;
+	var info=document.getElementById('info');
 </script>
 
 </body>

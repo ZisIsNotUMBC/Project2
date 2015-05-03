@@ -19,48 +19,55 @@
 	include('CommonMethods.php');
 	$d=new Common(false);
 	if($_POST['print']){
-		$printb=date("Y-m-d H:i:s",strtotime("$_POST[date] 0:00:00"));
-		$printe=date("Y-m-d H:i:s",strtotime("$_POST[date] 23:99:99"));
-		$print=" AND t>='$printb' AND t<='$printe' ";
-		$prints=" AND start>='$printb' AND start<='$printe' ";
-	}else $print="";
-	$rs=$d->executeQuery("SELECT * FROM appts WHERE id='$_GET[ID]'",'adv.E');	//check login validity (main.php?ID=xxx)
+		if(strcmp(strtoupper($_POST['date']),"ALL")==0){
+			$printb=date("Y-m-d H:i:s",strtotime("2000-01-01 00:00:00"));
+			$printe=date("Y-m-d H:i:s",strtotime("2030-12-31 23:59:59"));
+		}else{
+			$printb=date("Y-m-d H:i:s",strtotime("$_POST[date] 00:00:00"));
+			$printe=date("Y-m-d H:i:s",strtotime("$_POST[date] 23:99:99"));
+		}
+	}else{
+		$printb=date("Y-m-d")." 00:00:00";
+		$printe=date("Y-m-d")." 23:99:99";
+	}
+	$print="t>='$printb' AND t<='$printe'";
+	$prints="start>='$printb' AND start<='$printe'";
+	$rs=$d->executeQuery("SELECT * FROM appts WHERE id='$_GET[ID]'",'adv.E');
 	if($ss=mysql_fetch_row($rs)){
 		if($ss[6]==0)header("Location:main.php?ID=$_GET[ID]");
-		$rs=$d->executeQuery("SELECT * FROM appts WHERE adv='$ss[4]' AND isAdv=0 $print AND t>'0000-00-00 00:00:00' ORDER BY t",'adv.F');
+		print("<b>Individual Advising Today</b><br><table>");
+		$rs=$d->executeQuery("SELECT * FROM appts WHERE adv='$ss[4]' AND isAdv='0' AND $print AND isGroup=0 ORDER BY t",'adv.F');
 		$c=0;
-		print("<b>Individual Time Table</b><br>");
 		while($s=mysql_fetch_row($rs)){
-			if($c%2==0)print("<font color='blue'>$s[3] &nbsp; <b>$s[5]</b> &nbsp; $s[2] <b>&nbsp; $s[1]</b><br></font>");
-			else print("<font color='black'>$s[3] &nbsp; <b>$s[5]</b> &nbsp; $s[2] <b>&nbsp; $s[1]</b><br></font>");
-			$c=$c+1;
+			if($c%2==0)print("<tr><td><b>$s[5]</b></td><td>$s[3]</td><td><b>$s[2]</b></td><td>$s[1]</td></tr>");
+			else print("<tr><td><b>$s[5]</b></td><td>$s[3]</td><td><b>$s[2]</b></td><td>$s[1]</td></tr>");
+			$c++;
 		}
-		print("<br><b>Group Time Table</b><br>");
-		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' $prints AND groupMax>0 ORDER BY start",'adv.G');
+		print("</table><br><b>Group Advising Today</b><br><table>");
+		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND $prints AND groupMax>0 ORDER BY start",'adv.G');
 		while($s=mysql_fetch_row($rs)){
-			if(strlen($s[3])==0)print("<font color='red'>$s[0] &nbsp; Group:$s[2]/$s[4]</font><br>");
-			else print("<font color='red'>$s[0] &nbsp; Group:$s[2]/$s[4] &nbsp For $s[3]</font><br>");
+			print("<tr><td>$s[0]</td><td>$s[2]/$s[4]</td><td>$s[3]</td></tr>");
 			$rsb=$d->executeQuery("SELECT * FROM appts WHERE adv='$ss[4]' AND t='$s[0]'",'adv.H');
 			$c=0;
 			while($sp=mysql_fetch_row($rsb)){
-				if($c%2==0)print("<font color='blue'> &nbsp; &nbsp; $sp[3] <b>&nbsp; $sp[2]</b> &nbsp; $sp[1]<br></font>");
-				else print("<font color='black'> &nbsp; &nbsp; $sp[3] <b>&nbsp; $sp[2]</b> &nbsp; $sp[1]<br></font>");
-				$c=$c+1;
+				if($c%2==0)print("<tr><td><div align='right'><b>$sp[1]</b></div></td><td>$sp[2]</td><td>$sp[3]</td></tr>");
+				else print("<tr><td><div align='right'><b>$sp[1]</b></div></td><td>$sp[2]</td><td>$sp[3]</td></tr>");
+				$c++;
 			}
 		}
-		if($_POST['print'])die("<br><form action='adv.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='back' value='Go Back'></form>");
-		print("<br><b>Remaining Time</b><br><font color='green'>");
-		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND groupMax=0 ORDER BY start",'adv.I');
-		while($s=mysql_fetch_row($rs))print("$s[0] ~ $s[1] : $s[3]<br>");
-		print("</font><br>");
+		if($_POST['print'])die("</table><br><form action='adv.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='back' value='Go Back'></form>");
+		print("</table><br><b>Free Time Today</b><br><font color='green'><table>");
+		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND $prints AND groupMax='0' ORDER BY start",'adv.I');
+		while($s=mysql_fetch_row($rs))print("<tr><td>$s[0]</td><td>$s[1]</td><td>$s[3]</td><tr>");
+		print("</table></font><br>");
 		if($_POST['add']){
 			$ub=strtotime("$_POST[date] $_POST[b]");
-			$ue=strtotime("$_POST[date] $_POST[e]");
+			$ue=strtotime("$_POST[date] $_POST[e]")-1800;
 			F($ub,$ue,$d,$ss);
 		}
 		if($_POST['madd']){
 			$ub=strtotime("$_POST[date] $_POST[b]");
-			$ue=strtotime("$_POST[date] $_POST[e]");
+			$ue=strtotime("$_POST[date] $_POST[e]")-1800;
 			$l=intval($_POST['n']);
 			for($i=0;$i<$l;$i++){
 				F($ub,$ue,$d,$ss);
@@ -68,22 +75,21 @@
 				$ue=$ue+604800;
 			}
 		}
-	}else header("Locationindex.php?MSG=0");
-	print("<div align='center'>Welcome, Advisor <b>$ss[1]</b>(<b>$ss[2]</b>) in <b>$ss[3]</b>");
+	}else header("Location:index.php?MSG=0");
+	print("<div align='center'>Welcome, <b>$ss[1]</b>($ss[2]) from <b>$ss[3]</b>");
 ?>
 
 <html>
 <head>
-	<title>Undergraduate Advising Project Advisor Page</title>
+	<title>Advisor UAP</title>
 </head>
 <body>
 	<br>
 	<form action=<?php print("'adv.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
-		Date:<input type='text' name='date' value="2015-4-10"><br>
-		Time Start:<input type='text' name='b' value="9:00:00"><br>
-		Time End:<input type='text' name='e' value="12:00:00"><br>
-		Major:<input type='text' name='m' value=""><br>
-		Group Capacity:<select name='mg'>
+		Date:<input type='text' name='date' value='2015-5-10' size='10'><input type='submit' name='print' value='Print Time Table' title='Enter date (2015-5-10) to print the "Date" above.
+		Enter ALL (case insensitive) to print all.'><br>
+		Time From:<input type='text' name='b' value='9:00:00' size='8' title='Use 13:00:00 instead of 1:00:00 PM'> To:<input type='text' name='e' value='12:00:00' size='8' title='Use 13:00:00 instead of 1:00:00 PM'><br>
+		Limited to Major:<input type='text' name='m' size='4' title='Change this only if you want to make this limited to a certain major'> Group Capacity:<select name='mg' title='Change this only if you want to make this a group advising time (12:00:00~12:30:00 or 12:30:00~13:00:00)'>
 			<option value=0>0</option>
 			<option value=5>5</option>
 			<option value=6>6</option>
@@ -92,23 +98,13 @@
 			<option value=9>9</option>
 			<option value=10>10</option>
 		</select><br>
-		<input type='submit' name='print' value='Print Time Table for Specific Date'>
-		<input type='submit' name='add' value='Add Time'>
-		<input type='submit' name='return' value='Return to Login'><br>
-		Repeat <textarea name="n" cols=1 rows=1>3</textarea> Weeks: <input type='submit' name='madd' value='Add Multiple Time'><br>
+		<input type='submit' name='add' value='Add Time'><input type='submit' name='return' value='Return to Login'><br>
+		Repeat <input type='text' name='n' value='3' size='1'> Weeks:<input type='submit' name='madd' value='Add Multiple Time' title='E.G. for Repeat 3 Weeks:
+		2015-5-10 9:00:00~12:00:00
+		2015-5-17 9:00:00~12:00:00
+		2015-5-22 9:00:00~12:00:00'><br><br>
 	</form>
 </div>
-
-<b>NOTE:</b> PLEASE USE 13:00:00 instead of 1:00:00 for afternoon. Just plus 12:00:00 for afternoon.<br>
-<br>
-The "Time Table" is showing the Registed Individual Advisings and all Group Advisings.<br>
-The "Remaining Time" table is showing the "free" time you still have<br>
-<br>
-<b>Print Time Table for Specific Date: </b>According to the "Date" box above, print the time table for that date.<br>
-<br>
-<b>Add Time: </b>To add time to "Avaliable/Remaining Time", Input Date(xxxx-xx-xx),Time Start(xx:xx:xx),Time End(xx:xx:xx). Enter Major to make the time only available to specific major, or enter nothing to make it general. Select Group Capacity 5~10 if you are creating an advising group, or just leave it 0 for individual time. 
-<br>
-<b>Add Multiple Time: </b>Enter time just like "Add Time", then input a number N for times which it would be repeated. The time would repeat for the following N-1 weaks.
 
 </body>
 </html>

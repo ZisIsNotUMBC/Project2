@@ -24,21 +24,23 @@
 		}
 		$name=array();
 		$namec=0;
-		print("START &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;END  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CAPACITY<br>");
+		print("Notice that you can actually hang your mouse on '?' to check info, click 'HIDE' to hide some advisor and clikc the time below.<br>START &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;END  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CAPACITY<br>");
 		$rb=$d->executeQuery('SELECT * FROM i','main.F');
 		while($s=mysql_fetch_row($rb)){
 			$name[$namec]=$s[1];
 			$namec=$namec+1;
-			print("<b>$s[1]</b> <img src='p.png' height=15 width=15 title='$s[2]'></img><br>");
+			print("<div id='e$namec'><b>$s[1]</b> <img src='p.png' height=15 width=15 title='$s[2]'></img> <i onclick='document.getElementById(\"e$namec\").remove();'>HIDE</i><br>");
 			$rc=$d->executeQuery("SELECT * FROM i0 WHERE adv='$s[0]' AND ( major='$ss[3]' OR major='' ) AND ( groupNow='0' OR groupNow!=groupMax ) ORDER BY start",'main.G');
 			while($s=mysql_fetch_row($rc)){
-				print("$s[0] ~ $s[1] : ");
+				$named=$namec-1;
+				print("<font onclick='document.getElementById(\"t\").value=\"$s[0]\";document.getElementById(\"i\").value=$named;window.scrollTo(0,document.body.scrollHeight);'>$s[0]</font> ~ <font onclick='document.getElementById(\"t\").value=\"$s[1]\";document.getElementById(\"i\").value=$named;window.scrollTo(0,document.body.scrollHeight);'>$s[1]</font> : ");
 				if($s[4]==0){
 					print("<font color='blue'>Individual<br></font>");
 				}else{
 					print("<font color='red'>$s[2]/$s[4]<br></font>");
 				}
 			}
+			print("</div>");
 		}
 		print("<div align='center'>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) in <b>$ss[3]</b>");
 		if(strtotime($ss[5])==943938000){
@@ -94,28 +96,17 @@
 	}else header('Location:index.php?MSG=0');
 ?>
 
-<html><head><title>Undergraduate Advising Project</title></head><body>
+<html><head><title>Student UAP</title></head><body>
 
 <form action=<?php print("'main.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
-	<br>Advisor:<select name='i'><?php for($i=0;$i<$namec;$i++)print("<option value=$i>$name[$i]</option>") ?></select>
-	Time:<input type='text' name='t' value=<?php print("'$_GET[t]'"); ?>><br>
-	<input type='submit' name='indiv' value='New Individual Advising'>
-	<input type='submit' name='jgroup' value='Join Group Advising'>
-	<input type='submit' name='return' value='Return To Login'><br>
-	<input type='submit' name='helperI' value='Individual Time Clicker'>
-	<input type='submit' name='helperG' value='Group Time Clicker'><br><br>
+	<br>Advisor:<select name='i' id='i'><?php for($i=0;$i<$namec;$i++)print("<option value=$i>$name[$i]</option>") ?></select>
+	Time:<input type='text' id=t name='t' value=<?php print("'$_GET[t]'"); ?>><br>
+	<input type='submit' name='indiv' value='Make Individual Advising' title='Just enter the START time. Use 13:00:00 instead of 1:00:00 PM. The advising always lasts for 30min.'>
+	<input type='submit' name='jgroup' value='Join Group Advising' title='Just enter the START time. Use 13:00:00 instead of 1:00:00 PM. The advising always lasts for 30min.'>
+	<input type='submit' name='return' value='Return to Login'><br>
+	<input type='submit' name='helperI' value='All Time Selector'>
+	<input type='submit' name='helperG' value='Group Time Selector'><br><br>
 </form>
 </div>
-
-Select Advisor, enter Time E.G. '2015-5-1 11:00:00', click 'New Individual Advising' or 'Join Group Advising' to setup Advising.<br>
-All time period given above is the <b>STARTING TIME</b>, which means that the advising CAN START at any time given in time period above. The advising will always last for 30min.<br>
-<br>
-For CAPACITY=0/0 time periods, they are time where you can do Individual Advising.<br>
-For CAPACITY=?/? time periods, they are Group Advising'.<br>
-<br>
-<font color='blue'>Try 'Individual Time Clicker' AND 'Group Time Clicker' to 'Click' the time<br>
-Remember to choose 'Advisor' before that, and click the correct button accoridng to your choice. Also choose the advisor again after the page returns.<br>
-<br>
-You can get the information of the advisor by hanging the mouse on the "?" picture above.<br></font>
 
 </body></html>
