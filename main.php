@@ -22,29 +22,30 @@
 			$rt=$d->executeQuery("UPDATE appts SET t='0000-00-00 00:00:00',isGroup=0 WHERE i='$ss[0]'",'main.E');
 			header("Location:main.php?ID=$_GET[ID]");
 		}
+		print("<div align='center'>Hover over buttons/texts/textboxes to find out advisor info/function explaination</div><br>");
 		$name=array();
 		$namec=0;
-		print("Notice that you can actually hang your mouse on '?' to check info, click 'HIDE' to hide some advisor and clikc the time below.<br>START &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;END  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CAPACITY<br>");
 		$rb=$d->executeQuery('SELECT * FROM i','main.F');
 		while($s=mysql_fetch_row($rb)){
 			$name[$namec]=$s[1];
 			$namec=$namec+1;
-			print("<div id='e$namec'><b>$s[1]</b> <img src='p.png' height=15 width=15 title='$s[2]'></img> <i onclick='document.getElementById(\"e$namec\").remove();'>HIDE</i><br>");
+			$named=$namec-1;
+			print("<div id='e$namec'><font size='4' title='$s[2]'><b>$s[1]</b></font> <font size='2' color='blue' onclick='document.getElementById(\"e$namec\").remove();' title='To unHide, reopen this page'>HIDE</font><br>");
 			$rc=$d->executeQuery("SELECT * FROM i0 WHERE adv='$s[0]' AND ( major='$ss[3]' OR major='' ) AND ( groupNow='0' OR groupNow!=groupMax ) ORDER BY start",'main.G');
 			while($s=mysql_fetch_row($rc)){
-				$named=$namec-1;
-				print("<font onclick='document.getElementById(\"t\").value=\"$s[0]\";document.getElementById(\"i\").value=$named;window.scrollTo(0,document.body.scrollHeight);'>$s[0]</font> ~ <font onclick='document.getElementById(\"t\").value=\"$s[1]\";document.getElementById(\"i\").value=$named;window.scrollTo(0,document.body.scrollHeight);'>$s[1]</font> : ");
+				$st=substr($s[1],11);
 				if($s[4]==0){
-					print("<font color='blue'>Individual<br></font>");
+					print("<font onclick='document.getElementById(\"t\").value=\"$s[0]\";document.getElementById(\"i\").value=$named;document.getElementById(\"jgroup\").disabled=true;document.getElementById(\"indiv\").disabled=false;window.scrollTo(0,document.body.scrollHeight);'>$s[0]</font>~$st : <font color='blue'>Individual<br></font>");
 				}else{
-					print("<font color='red'>$s[2]/$s[4]<br></font>");
+					print("<font onclick='document.getElementById(\"t\").value=\"$s[0]\";document.getElementById(\"i\").value=$named;document.getElementById(\"jgroup\").disabled=false;document.getElementById(\"indiv\").disabled=true;window.scrollTo(0,document.body.scrollHeight);'>$s[0]</font>~$st : <font color='red'>Group:$s[2]/$s[4]<br></font>");
 				}
 			}
 			print("</div>");
 		}
 		print("<div align='center'>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) in <b>$ss[3]</b>");
+		if(strcmp($ss[2],'ZZZZZZZ')==0)print("<br>Notice that you CAN'T actually make an appointment here");
 		if(strtotime($ss[5])==943938000){
-			if($_POST['indiv']){
+			if(($_POST['indiv'])and(strcmp($ss[2],'ZZZZZZZ')!=0)){
 				if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<='$t' AND end>='$t' AND groupMax=0 AND ( major='' OR major='$ss[3]' )",'main.H'))){
 					$ute=$ut+1800;
 					$te=date('Y-m-d H:i:s',$ute);
@@ -79,7 +80,7 @@
 					print("<h3>Time Do Not Exist</h3><br>");
 				}
 			}else{
-				if($_POST['jgroup'])if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start='$t' AND groupMax>'0' AND groupNow<groupMax AND ( major='' OR major='$ss[3]' )",'main.S'))){
+				if(($_POST['jgroup'])and(strcmp($ss[2],'ZZZZZZZ')!=0))if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start='$t' AND groupMax>'0' AND groupNow<groupMax AND ( major='' OR major='$ss[3]' )",'main.S'))){
 					$n=$s[2]+1;
 					$rt=$d->executeQuery("UPDATE i0 SET groupNow=$n WHERE adv='$i' AND start='$s[0]'",'main.T');
 					$rt=$d->executeQuery("UPDATE appts SET adv=$i,t='$s[0]',isGroup='1' WHERE id='$_GET[ID]'",'main.U');
@@ -101,12 +102,14 @@
 <form action=<?php print("'main.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
 	<br>Advisor:<select name='i' id='i'><?php for($i=0;$i<$namec;$i++)print("<option value=$i>$name[$i]</option>") ?></select>
 	Time:<input type='text' id=t name='t' value=<?php print("'$_GET[t]'"); ?>><br>
-	<input type='submit' name='indiv' value='Make Individual Advising' title='Just enter the START time. Use 13:00:00 instead of 1:00:00 PM. The advising always lasts for 30min.'>
-	<input type='submit' name='jgroup' value='Join Group Advising' title='Just enter the START time. Use 13:00:00 instead of 1:00:00 PM. The advising always lasts for 30min.'>
-	<input type='submit' name='return' value='Return to Login'><br>
+	<input type='submit' id='indiv' name='indiv' value='Make Individual Advising' title='Just enter the START time. Use 13:00:00 instead of 1:00:00 PM. The advising always lasts for 30min. Notice that the time given above are all available "START" time. So if you choosed 9:30:00 in 9:00:00~9:00:00, it is actually 9:30:00~10:00:00 and the table would be updated to 9:00:00~9:00:00'>
+	<input type='submit' id='jgroup' name='jgroup' value='Join Group Advising' title='Just enter the START time. Use 13:00:00 instead of 1:00:00 PM. The advising always lasts for 30min.'><br>
 	<input type='submit' name='helperI' value='All Time Selector'>
-	<input type='submit' name='helperG' value='Group Time Selector'><br><br>
+	<input type='submit' name='helperG' value='Group Time Selector'><br>
+	<input type='submit' name='return' value='Return to Login'> <input type='submit' name='refresh' value='Refresh This Page' title='To unhide advisors, see table change, or un-disable buttons'><br>
 </form>
 </div>
+
+<?php if($_GET['adv'])print("<script>document.getElementById('i').value='$_GET[adv]';</script>"); ?>
 
 </body></html>

@@ -55,29 +55,37 @@
 </script>
 
 <div align='center'>
-	<h2>Undergraduate Advising Project Login</h2><br>
-	<form action='index.php' method='post' name='t'>
-		<table>
+	<b><font size='5'>Undergraduate Advising Project Login</font></b><br>
+		<table id='ta'>
+			<form action='index.php' method='post' name='t'>
 			<tr bgcolor="#22F53E"><td colspan='2'>ID:<input type='text' name='ID' size='7' title='E.G. AB12345, case insensitive'></td></tr>
 			<tr><td bgcolor="#22F53E"><input type='submit' name='login' value='Log In' title='Just enter ID to Log In, You might directly hit enter to login.'></td>
-			<td bgcolor="#43FAE2"><input type='submit' name='signup' value='Sign Up' title='Enter EVERYTHING to Sign Up'></td></tr>
+			</form>
+			<td bgcolor="#43FAE2"><button onclick="document.getElementById('ta').remove();document.getElementById('tb').style.visibility='visible';">Sign Up</button></td></tr>
 		</table>
-		<table bgcolor="#43FAE2"><tr><td>
+		<form action='index.php' method='post' name='t'>
+		<table id='tb' bgcolor="#43FAE2"><tr><td>
+				ID:<input type='text' name='ID' size='7' title='E.G. AB12345, case insensitive'>
 				<select id='ss' name='i' onchange='f();'>
 					<option value=1>Advisor</option>
 					<option value=0>Student</option>
 				</select>
 				Name:<input type='text' name='Name' size='9'>
-				Major:<input type='text' name='Major' size='4' title='E.G. CMSC (4 char at most, case insensitive)'><br>
-				<textarea id="info" name='info' cols=44 rows=4>If you are an advisor, input the info you would like your students to see to register</textarea>
-		</td></tr></table>
-	</form>
+				Major:<input type='text' name='Major' size='4' title='E.G. CMSC (4 char at most, case insensitive)'> <input type='submit' name='signup' value='Sign Up' title='Enter EVERYTHING to Sign Up'><br>
+				<textarea id="info" name='info' cols=66 rows=4>If you are an advisor, input the info you would like your students to see to register</textarea>
+		</table>
+		</form>
 </div>
 
 <script>
+	document.getElementById('tb').style.visibility='hidden';
 	var ss=document.getElementById('ss');;
 	var info=document.getElementById('info');
 </script>
+
+<marquee behavior='scroll' direction='left'>
+<img src='a.png'><img src='b.png'><img src='c.png'><img src='d.png'><img src='e.png'><img src='f.png'><img src='g.png'>
+</marquee>
 
 </body>
 </html>

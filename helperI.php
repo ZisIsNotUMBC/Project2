@@ -31,7 +31,7 @@
 	c.addEventListener('click',function(e){
 		var r=c.getBoundingClientRect();
 		var s=xyconv(e.clientX-r.left,e.clientY-r.top);
-		if((s.length!=0)||(confirm('Invalid Time Clicked, Are You Going Back?')))window.location.href="main.php?ID="+ID+"&t="+year+"-"+s+":00";
+		if((s.length!=0)||(confirm('Invalid Time Clicked, Are You Going Back?')))window.location.href="main.php?ID="+ID+"&t="+year+"-"+s+":00&adv="+adv;
 	},false);
 	<?php
 		include('CommonMethods.php');
@@ -55,6 +55,8 @@
 			$jb=array();
 			$je=array();
 			$jxd=array();
+			$namee=mysql_fetch_row($d->executeQuery("SELECT * FROM i WHERE i='$ins'",'T'));
+			$namee=$namee[1];
 			$ra=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ins' AND ( major='$ss[3]' OR major='' ) ORDER BY start",'helperG.A');
 			while($s=mysql_fetch_row($ra)){
 				$ub=strtotime($s[0]);
@@ -90,7 +92,7 @@
 			if($i>1)$jyc[$i-2]=$j;
 			$jxc=$i-1;
 			$jyear=date('Y',$ub);
-			print("var ID='$_GET[ID]';var xc=$jxc;var year=$jyear;var yc=[");
+			print("var ID='$_GET[ID]';var adv=$ins;var xc=$jxc;var year=$jyear;var yc=[");
 			for($i=0;$i<$jxc;$i++)print("$jyc[$i],");
 			print("0];var xd=[");
 			for($i=0;$i<$jxc;$i++)print("'$jxd[$i]',");
@@ -123,11 +125,9 @@
 	?>
 </script>
 
+<?php print("<div align='center'>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) in <b>$ss[3]</b>. Advisor:<b>$namee</b></div>"); ?>
 <br><font color='blue'>Blue</font> is for <b>'New Individual Advising'</b><br>
-<font color='red'>Red</font> is for <b>'Join Group Advising'</b>. CAPACITY is written above.<br><br>
-
-Just click the time you want the advising to <b>START</b>, and it will auto-input the "Time Box" in the privious page for you.<br>
-Click anywhere else in the picture area to return.<br>
-You can save the time table by right clicking the time table and save that.<br>
+<font color='red'>Red</font> is for <b>'Join Group Advising'</b>. CAPACITY is written above.<br>
+Just click the time you want the advising to <b>START</b>, and it will auto-input everything in the privious page for you. Click anywhere else in the picture area to return. You can save the time table by right clicking the time table and save that.<br>
 
 </body></html>
