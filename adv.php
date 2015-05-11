@@ -62,14 +62,26 @@
 		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND $prints AND groupMax='0' ORDER BY start",'adv.I');
 		while($s=mysql_fetch_row($rs))print("<tr><td>$s[0]</td><td>$s[1]</td><td>$s[3]</td><tr>");
 		print("</table></font><br>");
-		if($_POST['add']){
-			$ub=strtotime("$_POST[date] $_POST[b]");
-			$ue=strtotime("$_POST[date] $_POST[e]")-1800;
-			F($ub,$ue,$d,$ss);
+		$flag=1;
+		if(($_POST['add'])or($_POST['madd'])){
+			if($_POST[mg][0]=='0'){
+				$ub=strtotime("$_POST[date] $_POST[b]");
+				$ue=strtotime("$_POST[date] $_POST[e]")-1800;
+			}else{
+				if(strcmp($_POST[b],"12:00:00")==0){
+					$ub=strtotime("$_POST[date] 12:00:00");
+					$ue=strtotime("$_POST[date] 12:30:00");
+				}else if(strcmp($_POST[b],"12:30:00")==0){
+					$ub=strtotime("$_POST[date] 12:30:00");
+					$ue=strtotime("$_POST[date] 13:00:00");
+				}else{
+					$flag=0;
+					print("<h3>ERROR: Group Advising Must be at 12:00:00 OR 12:30:00</h3><br>");
+				}
+			}
 		}
-		if($_POST['madd']){
-			$ub=strtotime("$_POST[date] $_POST[b]");
-			$ue=strtotime("$_POST[date] $_POST[e]")-1800;
+		if(($_POST['add'])and($flag==1))F($ub,$ue,$d,$ss);
+		if(($_POST['madd'])and($flag==1)){
 			$l=intval($_POST['n']);
 			for($i=0;$i<$l;$i++){
 				F($ub,$ue,$d,$ss);
