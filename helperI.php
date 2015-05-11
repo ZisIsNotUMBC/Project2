@@ -14,7 +14,11 @@
 			}else{
 				var ta=Math.trunc(y/100+8.5);
 				var tb=Math.trunc((((y-50)*36)%3600)/60);
-				return xd[nx]+' '+ta+':'+tb;
+				var sta=""+ta;
+				var stb=""+tb;
+				if(sta.length==1)sta="0"+sta;
+				if(stb.length==1)stb="0"+stb;
+				return xd[nx]+' '+sta+':'+stb;
 			}
 		}
 		return '';
