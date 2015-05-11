@@ -64,7 +64,7 @@
 			<td bgcolor="#43FAE2"><button onclick="document.getElementById('ta').remove();document.getElementById('tb').style.visibility='visible';">Sign Up</button></td></tr>
 		</table>
 		<form action='index.php' method='post' name='t'>
-		<table id='tb' bgcolor="#43FAE2"><tr><td>
+		<p id='tb'><table bgcolor="#43FAE2"><tr><td>
 				ID:<input type='text' name='ID' size='7' title='E.G. AB12345, case insensitive'>
 				<select id='ss' name='i' onchange='f();'>
 					<option value=1>Advisor</option>
@@ -73,12 +73,12 @@
 				Name:<input type='text' name='Name' size='9'>
 				Major:<input type='text' name='Major' size='4' title='E.G. CMSC (4 char at most, case insensitive)'> <input type='submit' name='signup' value='Sign Up' title='Enter EVERYTHING to Sign Up'><br>
 				<textarea id="info" name='info' cols=66 rows=4>If you are an advisor, input the info you would like your students to see to register</textarea>
-		</table>
+		</table></p>
 		</form>
 </div>
 
 <script>
-	document.getElementById('tb').style.visibility='hidden';
+	document.getElementById('tb').style.visibility='collapse';
 	var ss=document.getElementById('ss');;
 	var info=document.getElementById('info');
 </script>

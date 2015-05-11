@@ -43,7 +43,7 @@
 			print("</div>");
 		}
 		print("<div align='center'>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) in <b>$ss[3]</b>");
-		if(strcmp($ss[2],'ZZZZZZZ')==0)print("<br>Notice that you CAN'T actually make an appointment here");
+		if(strcmp($ss[2],'ZZZZZZZ')==0)print("<br>Notice that you CAN'T actually make an appointment here without logging in with a real student account");
 		if(strtotime($ss[5])==943938000){
 			if(($_POST['indiv'])and(strcmp($ss[2],'ZZZZZZZ')!=0)){
 				if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<='$t' AND end>='$t' AND groupMax=0 AND ( major='' OR major='$ss[3]' )",'main.H'))){
