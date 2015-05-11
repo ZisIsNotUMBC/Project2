@@ -58,7 +58,7 @@
 			}
 		}
 		if($_POST['print'])die("</table><br><form action='adv.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='back' value='Back'></form>");
-		print("</table><br><b>Free Time In Future 3 Days</b><br><font color='green'><table>");
+		print("</table><br><b>Free Time In Future 3 Days</b><br><font color='green'><table border='1'><tr><td>START</td><td>END</td><td>Limited to Major</td></tr>");
 		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND $prints AND groupMax='0' ORDER BY start",'adv.I');
 		while($s=mysql_fetch_row($rs))print("<tr><td>$s[0]</td><td>$s[1]</td><td>$s[3]</td><tr>");
 		print("</table></font><br>");
