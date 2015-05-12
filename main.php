@@ -16,8 +16,18 @@ if($ss=mysql_fetch_row($ra)){
 			$m=$m[2]-1;
 			$rt=$d->executeQuery("UPDATE i0 SET groupNow='$m' WHERE start='$ss[5]' AND adv='$ss[4]'",'main.C');
 		}else{
+			$tb=date('Y-m-d H:i:s',strtotime($ss[5])-1800);
 			$te=date('Y-m-d H:i:s',strtotime($ss[5])+1800);
-			$rt=$d->executeQuery("INSERT INTO i0(start,end,major,adv) VALUES ('$ss[5]','$te','$ss[3]','$ss[4]')",'main.D');
+			if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE end='$tb' AND adv='$ss[4]'",'main.B'))){
+				if($p=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE start='$te' AND adv='$ss[4]'",'main.B'))){
+					$d->executeQuery("UPDATE i0 SET end='$p[1]' WHERE adv='$ss[4]' AND end='$tb'",'main.O');
+					$d->executeQuery("DELETE FROM i0 WHERE adv='$ss[4]' AND start='$te'",'main.J');
+				}else $d->executeQuery("UPDATE i0 SET end='$te' WHERE adv='$ss[4]' AND end='$tb'",'main.O');
+			}else{
+				if($p=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE start='$te' AND adv='$ss[4]'",'main.B'))){
+					$d->executeQuery("UPDATE i0 SET start='$b' WHERE adv='$ss[4]' AND start='$te'",'main.O');
+				}else $rt=$d->executeQuery("INSERT INTO i0(start,end,major,adv) VALUES ('$ss[5]','$te','$ss[3]','$ss[4]')",'main.D');
+			}
 		}
 		$rt=$d->executeQuery("UPDATE appts SET t='0000-00-00 00:00:00',isGroup=0 WHERE i='$ss[0]'",'main.E');
 		header("Location:main.php?ID=$_GET[ID]");
@@ -49,29 +59,35 @@ if($ss=mysql_fetch_row($ra)){
 			if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<='$t' AND end>='$t' AND groupMax=0 AND ( major='' OR major='$ss[3]' )",'main.H'))){
 				$ute=$ut+1800;
 				$te=date('Y-m-d H:i:s',$ute);
-				$rb=$d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<='$t' AND end>'$t' AND ( major='' OR major='$ss[3]' )",'main.I');
+				$utbb=$t-1800;
+				$tbb=date('Y-m-d H:i:s',$utbb);
+				$rb=$d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<'$tbb' AND end>'$tbb' AND ( major='' OR major='$ss[3]' )",'main.I');
 				while($s=mysql_fetch_row($rb)){
 					$ub=strtotime($s[0]);
 					$ue=strtotime($s[1]);
-					if(($ub>=$ut)&&($ue<=$ute)){
-						$rt=$d->executeQuery("DELETE FROM i0 WHERE adv='$i' AND start='$s[0]'",'main.J');
-					}else if(($ub<=$ut)&&($ue>=$ute)){
+					if(($ub<$utbb)&&($ue>$ute)){
 						$rt=$d->executeQuery("UPDATE i0 SET end='$t' WHERE adv='$i' AND start='$s[0]'",'main.K');
 						$rt=$d->executeQuery("INSERT INTO i0(start,end,major,adv) VALUES ('$te','$s[1]','$ss[3]','$i')",'main.L');
 					}else{
 						$rt=$d->executeQuery("UPDATE i0 SET end='$t' WHERE adv='$i' AND start='$s[0]'",'main.M');
 					}
 				}
-				$rb=$d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<'$te' AND end>='$te' AND ( major='' OR major='$ss[3]' )",'main.N');
+				$rb=$d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<'$te' AND end>'$te' AND ( major='' OR major='$ss[3]' )",'main.N');
 				while($s=mysql_fetch_row($rb)){
 					$ub=strtotime($s[0]);
 					$ue=strtotime($s[1]);
-					if(($ub<=$ut)&&($ue>=$ute)){
+					if(($ub<$utbb)&&($ue>$ute)){
 						$rt=$d->executeQuery("UPDATE i0 SET end='$t' WHERE adv='$i' AND start='$s[0]'",'main.O');
 						$rt=$d->executeQuery("INSERT INTO i(b,e,m,adv) VALUES ('$te','$s[1]','$ss[3]','$i')",'main.P');
 					}else{
 						$rt=$d->executeQuery("UPDATE i0 SET start='$te' WHERE adv='$i' AND start='$s[0]'",'main.Q');
 					}
+				}
+				$rb=$d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start>='$tbb' AND end<='$te' AND ( major='' OR major='$ss[3]' )",'main.N');
+				while($s=mysql_fetch_row($rb)){
+					$ub=strtotime($s[0]);
+					$ue=strtotime($s[1]);
+					$rt=$d->executeQuery("DELETE FROM i0 WHERE adv='$i' AND start='$s[0]'",'main.J');
 				}
 				$rt=$d->executeQuery("UPDATE appts SET adv='$i',t='$t',isGroup='0' WHERE id='$_GET[ID]'",'main.R');
 				$rt=$name[$i];
