@@ -17,7 +17,7 @@ class Common
 	function connect($db)// connect to MySQL
 	{
 		$conn = @mysql_connect("studentdb.gl.umbc.edu", "chenjia1", "chenjia1") or die("Could not connect to MySQL");
-		$rs = @mysql_select_db($db, $conn) or die("Could not connect select $db database");
+		$rs = @mysql_select_db($db, $conn) or die("Could not select database '$db'");
 		$this->conn = $conn; 
 	}
 

@@ -3,20 +3,20 @@
 	$d=new Common(false);
 	$ID=strtoupper($_POST['ID']);
 	$Major=strtoupper($_POST['Major']);
-	if($_GET['MSG'][0]=='0')print("<h3>ERROR: Invalid Direct Login</h3><br>");
+	if($_GET['MSG'][0]=='0')print("<h3>Error: invalid login</h3><br>");
 	else if($_POST['signup']){
 		$flag=0;
 		if(strlen($_POST['Name'])==0){
 			$flag=1;
-			print("<h3>ERROR: Name Not Given</h3><br>");
+			print("<h3>Error: name is required</h3><br>");
 		}
 		if(strlen($_POST['ID'])!=7){
 			$flag=1;
-			print("<h3>ERROR: ID Not 7 Char</h3><br>");
+			print("<h3>Error: ID's must be seven characters.</h3><br>");
 		}
 		if((strlen($_POST['Major'])<3)||(strlen($_POST['Major'])>4)){
 			$flag=1;
-			print("<h3>ERROR: Major Not 3 or 4 Char</h3><br>");
+			print("<h3>Error: major must be an official major abbreviation of three or four characters.</h3><br>");
 		}
 		if($flag==0){
 			if($_POST['i']==1){
@@ -29,7 +29,7 @@
 			}
 			$s=$d->executeQuery("SELECT * FROM appts WHERE id='$ID'",'index.B');
 			if(mysql_fetch_row($s)){
-				print("<h3>ERROR: ID Already Exist</h3><br>");
+				print("<h3>Error: this ID is already registered</h3><br>");
 			}else{
 				$s=$d->executeQuery("INSERT INTO appts(name,id,major,adv,t,isAdv) values ('$_POST[Name]','$ID','$Major','$inst','0','$i')",'index.C');
 				if($_POST['i']==1){
@@ -40,10 +40,10 @@
 			}
 		}
 	}else if($_POST['login']){
-		if(strlen($ID)!=7)print("<h3>ERROR: ID Not 7 Char</h3><br>");
+		if(strlen($ID)!=7)print("<h3>Error: ID's must be seven characters.</h3><br>");
 		else{
 			if(mysql_fetch_row($d->executeQuery("SELECT * FROM appts where id='$ID'",'index.E')))header("Location: main.php?ID=$ID");
-			print("<h3>ERROR: ID Do Not Exist</h3><br>");
+			print("<h3>Error: this ID is not registered</h3><br>");
 		}
 	}
 ?>

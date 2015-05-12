@@ -22,7 +22,7 @@
 			$rt=$d->executeQuery("UPDATE appts SET t='0000-00-00 00:00:00',isGroup=0 WHERE i='$ss[0]'",'main.E');
 			header("Location:main.php?ID=$_GET[ID]");
 		}
-		print("<div align='center'>Hover over buttons/texts/textboxes to find out advisor info/function explaination</div><br>");
+		print("<div align='center'>Hover over components for more information.</div><br>");
 		$name=array();
 		$namec=0;
 		$rb=$d->executeQuery('SELECT * FROM i','main.F');
@@ -30,7 +30,7 @@
 			$name[$namec]=$s[1];
 			$namec=$namec+1;
 			$named=$namec-1;
-			print("<div id='e$namec'><font size='4' title='$s[2]'><b>$s[1]</b></font> <font size='2' color='blue' onclick='document.getElementById(\"e$namec\").remove();' title='To unHide, reopen this page'>HIDE</font><br>");
+			print("<div id='e$namec'><font size='4' title='$s[2]'><b>$s[1]</b></font> <font size='2' color='blue' onclick='document.getElementById(\"e$namec\").remove();' title='Refresh to unhide.'>HIDE</font><br>");
 			$rc=$d->executeQuery("SELECT * FROM i0 WHERE adv='$s[0]' AND ( major='$ss[3]' OR major='' ) AND ( groupNow='0' OR groupNow!=groupMax ) ORDER BY start",'main.G');
 			while($s=mysql_fetch_row($rc)){
 				$st=substr($s[1],11);
@@ -43,7 +43,7 @@
 			print("</div>");
 		}
 		print("<div align='center'>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) in <b>$ss[3]</b>");
-		if(strcmp($ss[2],'ZZZZZZZ')==0)print("<br>Notice that you CAN'T actually make an appointment here without logging in with a real student account");
+		if(strcmp($ss[2],'ZZZZZZZ')==0)print("<br>Student preview: note that registration is disabled here.");
 		if(strtotime($ss[5])==943938000){
 			if(($_POST['indiv'])and(strcmp($ss[2],'ZZZZZZZ')!=0)){
 				if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<='$t' AND end>='$t' AND groupMax=0 AND ( major='' OR major='$ss[3]' )",'main.H'))){
@@ -75,9 +75,9 @@
 					}
 					$rt=$d->executeQuery("UPDATE appts SET adv='$i',t='$t',isGroup='0' WHERE id='$_GET[ID]'",'main.R');
 					$rt=$name[$i];
-					die("<h3>Advising: $t with $rt</h3><br><form action='main.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='cancel' value='Cancel Advising'><input type='submit' name='return' value='Return To Login'></form>");
+					die("<h3>Advising: $t with $rt</h3><br><form action='main.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='cancel' value='Cancel Advising'><input type='submit' name='return' value='Logout'></form>");
 				}else{
-					print("<h3>Time Do Not Exist</h3><br>");
+					print("<h3>There is no available appointment at the given time.</h3><br>");
 				}
 			}else{
 				if(($_POST['jgroup'])and(strcmp($ss[2],'ZZZZZZZ')!=0))if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start='$t' AND groupMax>'0' AND groupNow<groupMax AND ( major='' OR major='$ss[3]' )",'main.S'))){
@@ -85,9 +85,9 @@
 					$rt=$d->executeQuery("UPDATE i0 SET groupNow=$n WHERE adv='$i' AND start='$s[0]'",'main.T');
 					$rt=$d->executeQuery("UPDATE appts SET adv=$i,t='$s[0]',isGroup='1' WHERE id='$_GET[ID]'",'main.U');
 					$rt=$name[$i];
-					die("<h3>Advising: $t with $rt</h3><br><form action='main.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='cancel' value='Cancel Advising'><input type='submit' name='return' value='Return To Login'></form>");
+					die("<h3>You are scheduled for advising at $t with $rt</h3><br><form action='main.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='cancel' value='Cancel Advising'><input type='submit' name='return' value='Return To Login'></form>");
 				}else{
-					print("<h3>Group Do Not Exist or Full</h3><br>");
+					print("<h3>The selected group is full or invalid.</h3><br>");
 				}
 			}
 		}else{
@@ -102,11 +102,11 @@
 <form action=<?php print("'main.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
 	<br>Advisor:<select name='i' id='i'><?php for($i=0;$i<$namec;$i++)print("<option value=$i>$name[$i]</option>") ?></select>
 	Time:<input type='text' id=t name='t' value=<?php print("'$_GET[t]'"); ?>><br>
-	<input type='submit' id='indiv' name='indiv' value='Make Individual Advising' title='Just enter the START time. Use 13:00:00 instead of 1:00:00 PM. The advising always lasts for 30min. Notice that the time given above are all available "START" time. So if you choosed 9:30:00 in 9:00:00~9:00:00, it is actually 9:30:00~10:00:00 and the table would be updated to 9:00:00~9:00:00'>
-	<input type='submit' id='jgroup' name='jgroup' value='Join Group Advising' title='Just enter the START time. Use 13:00:00 instead of 1:00:00 PM. The advising always lasts for 30min.'><br>
-	<input type='submit' name='helperI' value='All Time Selector'>
+	<input type='submit' id='indiv' name='indiv' value='Make Individual Advising' title='Enter the start time in 24-hour time format. All appointments are thirty minutes.'>
+	<input type='submit' id='jgroup' name='jgroup' value='Join Group Advising' title='Enter the start time in 24-hour time format. All appointments are thirty minutes.'><br>
+	<input type='submit' name='helperI' value='Time Selector'>
 	<input type='submit' name='helperG' value='Group Time Selector'><br>
-	<input type='submit' name='return' value='Return to Login'> <input type='submit' name='refresh' value='Refresh This Page' title='To unhide advisors, see table change, or un-disable buttons'><br>
+	<input type='submit' name='return' value='Logout'> <input type='submit' name='refresh' value='Refresh' title='To unhide advisors, see table change, or reenable buttons'><br>
 </form>
 </div>
 

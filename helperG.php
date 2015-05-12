@@ -24,7 +24,7 @@
 	c.addEventListener('click',function(e){
 		var r=c.getBoundingClientRect();
 		var s=xyconv(e.clientX-r.left,e.clientY-r.top);
-		if((s.length!=0)||(confirm('Invalid Time Clicked, Are You Going Back?')))window.location.href="main.php?ID="+ID+"&t="+year+"-"+s+":00&adv="+adv;
+		if((s.length!=0)||(confirm('Return to list view?')))window.location.href="main.php?ID="+ID+"&t="+year+"-"+s+":00&adv="+adv;
 	},false);
 	<?php
 		include('CommonMethods.php');
@@ -118,8 +118,8 @@
 </script>
 
 <?php print("<div align='center'>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) in <b>$ss[3]</b>. Advisor:<b>$namee</b></div>"); ?>
-<br><font color='red'>Red</font> is for <b>'Join Group Advising'</b>. CAPACITY is written above.<br>
-Just click the time you want the advising to <b>START</b>, and it will auto-input everything in the privious page for you. Click anywhere else in the picture area to return. You can save the time table by right clicking the time table and save that.<br>
+<br><font color='red'>Red</font> denotes a <b>group</b> appointment.<br>
+You can save this time table as an image using your browser's right-click menu.<br>
 
 
 </body></html>
