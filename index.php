@@ -12,7 +12,7 @@
 		}
 		if(strlen($_POST['ID'])!=7){
 			$flag=1;
-			print("<h3>Error: ID's must be seven characters.</h3><br>");
+			print("<h3>Error: IDs must be seven characters.</h3><br>");
 		}
 		if((strlen($_POST['Major'])<3)||(strlen($_POST['Major'])>4)){
 			$flag=1;
@@ -40,7 +40,7 @@
 			}
 		}
 	}else if($_POST['login']){
-		if(strlen($ID)!=7)print("<h3>Error: ID's must be seven characters.</h3><br>");
+		if(strlen($ID)!=7)print("<h3>Error: IDs must be seven characters.</h3><br>");
 		else{
 			if(mysql_fetch_row($d->executeQuery("SELECT * FROM appts where id='$ID'",'index.E')))header("Location: main.php?ID=$ID");
 			print("<h3>Error: this ID is not registered</h3><br>");
@@ -55,7 +55,7 @@
 </script>
 
 <div align='center'>
-	<b><font size='5'>Undergraduate Advising Project Login</font></b><br>
+	<b><font size='5'>Undergraduate Advising Login</font></b><br>
 		<table id='ta'>
 			<form action='index.php' method='post' name='t'>
 			<tr bgcolor="#22F53E"><td colspan='2'>ID:<input type='text' name='ID' size='7' title='E.G. AB12345, case insensitive'></td></tr>

@@ -36,7 +36,7 @@
 	$rs=$d->executeQuery("SELECT * FROM appts WHERE id='$_GET[ID]'",'adv.E');
 	if($ss=mysql_fetch_row($rs)){
 		if($ss[6]==0)header("Location:main.php?ID=$_GET[ID]");
-		print("<div align='center'>Hover over buttons/texts/textboxes to find out function explaination</div><br>");
+		print("<div align='center'>Hover over components for more information.</div><br>");
 		if(!$_POST['print'])print("<b>Individual Schedule (Next 3 Days)</b><br><table>");else print("<b>Individual Advising for 3/ALL Days</b><br><table>");
 		$rs=$d->executeQuery("SELECT * FROM appts WHERE adv='$ss[4]' AND isAdv='0' AND $print AND isGroup=0 ORDER BY t",'adv.F');
 		$c=0;
@@ -99,7 +99,7 @@
 			}else print("<h3>Error: Time '$_POST[date] $_POST[b]' is not scheduled. </h3><br>");
 		}
 	}else header("Location:index.php?MSG=0");
-	print("<div align='center'>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) from <b>$ss[3]</b><br>");
+	print("<div align='left'><hr>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) from <b>$ss[3]</b><br>");
 ?>
 
 <html>
@@ -107,11 +107,12 @@
 	<title>Advisor UAP</title>
 </head>
 <body>
-	<br>
-	<form action=<?php print("'adv.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
-		Date:<input type='text' name='date' value='ALL' size='10'> <input type='submit' name='print' value='Print Time Table' title='Print a three-day schedule beginning at the given date, or ALL for all dates.'><br>
-		Time From:<input type='text' name='b' value='9:00:00' size='8' title='Use 13:00:00 instead of 1:00:00 PM'> To:<input type='text' name='e' value='12:00:00' size='8' title='Enter in 24-hour time format.'><br>
-		Major:<input type='text' name='m' size='4' title='Limit registration to a particular major.'> Capacity:<select name='mg' title='Limit capacity of appointment.'>
+        <br>
+        <form action=<?php print("'adv.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
+<fieldset>
+<legend>Appointments</legend>
+		From<input type='text' name='b' value='9:00:00' size='8' title='Enter in 24-hour time format.'> to <input type='text' name='e' value='12:00:00' size='8' title='Enter in 24-hour time format.'><br>
+		Major:<input type='text' name='m' size='4' title='Limit registration to a particular major.'> &nbsp;Capacity:<select name='mg' title='Limit capacity of appointment.'>
 			<option value=0>Individual</option>
 			<option value=5>5</option>
 			<option value=6>6</option>
@@ -119,12 +120,26 @@
 			<option value=8>8</option>
 			<option value=9>9</option>
 			<option value=10>10</option>
-		</select><br>
-		<input type='submit' name='add' value='Add Time'> <input type='submit' name='cancel' value='Cancel' title='Cancel an appointment. Please be sure to notify students.'><br>
-		Repeat for <input type='text' name='n' value='3' size='1'> weeks: <input type='submit' name='madd' value='Repeat' title='Repeat weekly.'><br>
+                </select><br>
+                Repeat for <input type='text' name='n' value='3' size='1'> weeks: <input type='submit' name='madd' value='Repeat' title='Repeat weekly.'>
+<br>
+		<input type='submit' name='add' value='Add Appointment'> <input type='submit' name='cancel' value='Cancel Appointment' title='Cancel an appointment. Please be sure to notify students.'>
+</fieldset>
+<br>
+
+<fieldset>
+<legend>Timetable</legend>
+                Date:<input type='text' name='date' value='ALL' size='10'> <input type='submit' name='print' value='Print Time Table' title='Print a three-day schedule beginning at the given date, or ALL for all dates.'><br>
+</fieldset>
+
+<br>
+
+<fieldset>
+<legend>Actions</legend>
 		<input type='submit' name='sview' value='Student View'>
-		<input type='submit' name='return' value='Return to Login'>
-		<input type='submit' name='refresh' value='Refresh This Page'><br>
+		<input type='submit' name='return' value='Logout'>
+                <input type='submit' name='refresh' value='Refresh'><br>
+</fieldset>
 	</form>
 </div>
 

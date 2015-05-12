@@ -42,8 +42,8 @@
 			}
 			print("</div>");
 		}
-		print("<div align='center'>Welcome, <b>$ss[1]</b>(<b>$ss[2]</b>) in <b>$ss[3]</b>");
-		if(strcmp($ss[2],'ZZZZZZZ')==0)print("<br>Student preview: note that registration is disabled here.");
+		print("<div align='left'><br><br><hr>Welcome, <b>$ss[1]</b> (ID: <b>$ss[2]</b>) in <b>$ss[3]</b>");
+		if(strcmp($ss[2],'ZZZZZZZ')==0)print("<br>Student preview: note that registration is disabled.");
 		if(strtotime($ss[5])==943938000){
 			if(($_POST['indiv'])and(strcmp($ss[2],'ZZZZZZZ')!=0)){
 				if($s=mysql_fetch_row($d->executeQuery("SELECT * FROM i0 WHERE adv='$i' AND start<='$t' AND end>='$t' AND groupMax=0 AND ( major='' OR major='$ss[3]' )",'main.H'))){
@@ -100,13 +100,24 @@
 <html><head><title>Student UAP</title></head><body>
 
 <form action=<?php print("'main.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
-	<br>Advisor:<select name='i' id='i'><?php for($i=0;$i<$namec;$i++)print("<option value=$i>$name[$i]</option>") ?></select>
-	Time:<input type='text' id=t name='t' value=<?php print("'$_GET[t]'"); ?>><br>
-	<input type='submit' id='indiv' name='indiv' value='Make Individual Advising' title='Enter the start time in 24-hour time format. All appointments are thirty minutes.'>
-	<input type='submit' id='jgroup' name='jgroup' value='Join Group Advising' title='Enter the start time in 24-hour time format. All appointments are thirty minutes.'><br>
+<br>
+
+<fieldset>
+<legend>Appointment</legend>
+        <br>Advisor:<select name='i' id='i'><?php for($i=0;$i<$namec;$i++)print("<option value=$i>$name[$i]</option>") ?></select>
 	<input type='submit' name='helperI' value='Time Selector'>
-	<input type='submit' name='helperG' value='Group Time Selector'><br>
-	<input type='submit' name='return' value='Logout'> <input type='submit' name='refresh' value='Refresh' title='To unhide advisors, see table change, or reenable buttons'><br>
+        <input type='submit' name='helperG' value='Group Time Selector'>
+	Time:<input type='text' id=t name='t' value=<?php print("'$_GET[t]'"); ?>><br>
+	<input type='submit' id='indiv' name='indiv' value='Schedule Individual Advising' title='Enter the start time in 24-hour format. All appointments are thirty minutes.'>
+        <input type='submit' id='jgroup' name='jgroup' value='Join Group Advising' title='Enter the start time in 24-hour format. All appointments are thirty minutes.'><br>
+</fieldset>
+
+<br>
+
+<fieldset>
+<legend>Actions</legend>
+        <input type='submit' name='return' value='Logout'> <input type='submit' name='refresh' value='Refresh' title='To unhide advisors, see table change, or reenable buttons'><br>
+</fieldset>
 </form>
 </div>
 
