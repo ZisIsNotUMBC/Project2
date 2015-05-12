@@ -37,7 +37,7 @@
 	if($ss=mysql_fetch_row($rs)){
 		if($ss[6]==0)header("Location:main.php?ID=$_GET[ID]");
 		print("<div align='center'>Hover over components for more information.</div><br>");
-		if(!$_POST['print'])print("<b>Individual Schedule (Next 3 Days)</b><br><table>");else print("<b>Individual Advising for 3/ALL Days</b><br><table>");
+		if(!$_POST['print'])print("<b>Individual Schedule (Next 3 Days)</b><br><table>");else print("<b>Individual Advising Schedule</b><br><table>");
 		$rs=$d->executeQuery("SELECT * FROM appts WHERE adv='$ss[4]' AND isAdv='0' AND $print AND isGroup=0 ORDER BY t",'adv.F');
 		$c=0;
 		while($s=mysql_fetch_row($rs)){
@@ -45,7 +45,7 @@
 			else print("<tr><td><font color='red'>$s[5]</font></td><td><b>$s[2]</b></td><td>$s[1]</td><td><b>$s[3]</b></td></tr>");
 			$c++;
 		}
-		if(!$_POST['print'])print("</table><br><b>Group Schedule (Next 3 Days)</b><br><table>");else print("</table><br><b>Group Advising for 3/ALL Days</b><br><table>");
+		if(!$_POST['print'])print("</table><br><b>Group Schedule (Next 3 Days)</b><br><table>");else print("</table><br><b>Group Advising Schedule</b><br><table>");
 		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND $prints AND groupMax>0 ORDER BY start",'adv.G');
 		while($s=mysql_fetch_row($rs)){
 			print("<tr><td>$s[0]</td><td>$s[2]/$s[4]</td><td>$s[3]</td></tr>");
@@ -58,7 +58,7 @@
 			}
 		}
 		if($_POST['print'])die("</table><br><form action='adv.php?ID=$_GET[ID]' method='post' name='t'><input type='submit' name='back' value='Back'></form>");
-		print("</table><br><b>Unscheduled Appointments (Next 3 Days)</b><br><font color='green'><table border='1'><tr><td>START</td><td>END</td><td>Limited to Major</td></tr>");
+		print("</table><br><b>Unscheduled Appointments (Next 3 Days)</b><br><font color='green'><table border='1'><tr><td>START</td><td>END</td><td>Major</td></tr>");
 		$rs=$d->executeQuery("SELECT * FROM i0 WHERE adv='$ss[4]' AND $prints AND groupMax='0' ORDER BY start",'adv.I');
 		while($s=mysql_fetch_row($rs))print("<tr><td>$s[0]</td><td>$s[1]</td><td>$s[3]</td><tr>");
 		print("</table></font><br>");
