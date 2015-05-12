@@ -25,7 +25,7 @@
 			$printe=date("Y-m-d H:i:s",strtotime("2030-12-31 23:59:59"));
 		}else{
 			$printb=date("Y-m-d H:i:s",strtotime("$_POST[date] 00:00:00"));
-			$printe=date("Y-m-d H:i:s",strtotime("$_POST[date] 00:00:00")+259200);
+			$printe=date("Y-m-d H:i:s",strtotime("$_POST[date] 23:59:59"));
 		}
 	}else{
 		$printb=date("Y-m-d")." 00:00:00";
@@ -110,7 +110,8 @@
         <br>
         <form action=<?php print("'adv.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
 <fieldset>
-<legend>Appointments</legend>
+<legend>Appointments/Timetable</legend>
+	Date:<input type='text' name='date' value='ALL' size='10'> <input type='submit' name='print' value='Print Time Table' title='Print a three-day schedule beginning at the given date, or ALL for all dates.'><br>
 		From<input type='text' name='b' value='9:00:00' size='8' title='Enter in 24-hour time format.'> to <input type='text' name='e' value='12:00:00' size='8' title='Enter in 24-hour time format.'><br>
 		Major:<input type='text' name='m' size='4' title='Limit registration to a particular major.'> &nbsp;Capacity:<select name='mg' title='Limit capacity of appointment.'>
 			<option value=0>Individual</option>
@@ -125,13 +126,6 @@
 <br>
 		<input type='submit' name='add' value='Add Appointment'> <input type='submit' name='cancel' value='Cancel Appointment' title='Cancel an appointment. Please be sure to notify students.'>
 </fieldset>
-<br>
-
-<fieldset>
-<legend>Timetable</legend>
-                Date:<input type='text' name='date' value='ALL' size='10'> <input type='submit' name='print' value='Print Time Table' title='Print a three-day schedule beginning at the given date, or ALL for all dates.'><br>
-</fieldset>
-
 <br>
 
 <fieldset>
