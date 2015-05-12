@@ -109,7 +109,7 @@
 <body>
 	<br>
 	<form action=<?php print("'adv.php?ID=$_GET[ID]'"); ?> method='post' name='t'>
-		Date:<input type='text' name='date' value='2015-5-10' size='10'> <input type='submit' name='print' value='Print Time Table' title='Enter date (2015-5-10) to print the time table for 3 days start at "Date" above.
+		Date:<input type='text' name='date' value='ALL' size='10'> <input type='submit' name='print' value='Print Time Table' title='Enter date (2015-5-10) to print the time table for 3 days start at "Date" above.
 		Enter ALL (case insensitive) to print all.'><br>
 		Time From:<input type='text' name='b' value='9:00:00' size='8' title='Use 13:00:00 instead of 1:00:00 PM'> To:<input type='text' name='e' value='12:00:00' size='8' title='Use 13:00:00 instead of 1:00:00 PM'><br>
 		Limited to Major:<input type='text' name='m' size='4' title='Change this only if you want to make this limited to a certain major'> Group Capacity:<select name='mg' title='Change this only if you want to make this a group advising time (12:00:00~12:30:00 or 12:30:00~13:00:00)'>

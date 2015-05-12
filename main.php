@@ -35,9 +35,9 @@
 			while($s=mysql_fetch_row($rc)){
 				$st=substr($s[1],11);
 				if($s[4]==0){
-					print("<font onclick='document.getElementById(\"t\").value=\"$s[0]\";document.getElementById(\"i\").value=$named;document.getElementById(\"jgroup\").disabled=true;document.getElementById(\"indiv\").disabled=false;window.scrollTo(0,document.body.scrollHeight);'>$s[0]</font>~$st : <font color='blue'>Individual<br></font>");
+					print("<u><font color='blue' onclick='document.getElementById(\"t\").value=\"$s[0]\";document.getElementById(\"i\").value=$named;document.getElementById(\"jgroup\").disabled=true;document.getElementById(\"indiv\").disabled=false;window.scrollTo(0,document.body.scrollHeight);'>$s[0]</font></u>~$st : <font color='blue'>Individual<br></font>");
 				}else{
-					print("<font onclick='document.getElementById(\"t\").value=\"$s[0]\";document.getElementById(\"i\").value=$named;document.getElementById(\"jgroup\").disabled=false;document.getElementById(\"indiv\").disabled=true;window.scrollTo(0,document.body.scrollHeight);'>$s[0]</font>~$st : <font color='red'>Group:$s[2]/$s[4]<br></font>");
+					print("<u><font color='blue' onclick='document.getElementById(\"t\").value=\"$s[0]\";document.getElementById(\"i\").value=$named;document.getElementById(\"jgroup\").disabled=false;document.getElementById(\"indiv\").disabled=true;window.scrollTo(0,document.body.scrollHeight);'>$s[0]</font></u>~$st : <font color='red'>Group:$s[2]/$s[4]<br></font>");
 				}
 			}
 			print("</div>");
